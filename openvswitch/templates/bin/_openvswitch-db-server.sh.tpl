@@ -23,6 +23,7 @@ OVS_DB=/run/openvswitch/conf.db
 OVS_SCHEMA=/usr/share/openvswitch/vswitch.ovsschema
 OVS_PID=/run/openvswitch/ovsdb-server.pid
 OVS_SOCKET=/run/openvswitch/db.sock
+OVS_DB_PORT=6640
 
 function start () {
   mkdir -p "$(dirname ${OVS_DB})"
@@ -41,6 +42,7 @@ function start () {
           -vconsole:info \
           --pidfile=${OVS_PID} \
           --remote=punix:${OVS_SOCKET} \
+          --remote=ptcp:${OVS_DB_PORT} \
           --remote=db:Open_vSwitch,Open_vSwitch,manager_options \
           --private-key=db:Open_vSwitch,SSL,private_key \
           --certificate=db:Open_vSwitch,SSL,certificate \

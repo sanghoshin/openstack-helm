@@ -42,8 +42,8 @@ function start () {
           -vconsole:info \
           --pidfile=${OVS_PID} \
           --remote=punix:${OVS_SOCKET} \
-          --remote=ptcp:${OVS_DB_PORT} \
           --remote=db:Open_vSwitch,Open_vSwitch,manager_options \
+          --remote=ptcp:${OVS_DB_PORT} \
           --private-key=db:Open_vSwitch,SSL,private_key \
           --certificate=db:Open_vSwitch,SSL,certificate \
           --bootstrap-ca-cert=db:Open_vSwitch,SSL,ca_cert

@@ -62,6 +62,18 @@ spec:
             - name: host-rootfs
               mountPath: /mnt/host-rootfs
               readOnly: true
+        - name: compute-node-registration-sona
+          image: appropriate/curl
+          command: ['sh', '-c', 'curl --user onos:rocks -X POST -H "Content-Type:application/json" -d "{ \"nodes\": [{\"hostname\" : \"compute-$OVS_POD_NAME\",\"type\" : \"COMPUTE\",\"managementIp\" : \"$OVS_POD_IP\",\"dataIp\" : \"$OVS_POD_IP\",\"integrationBridge\" : \"of:00000000000000a2\"}]}" http://sona-service:8181/onos/openstacknode/configure']
+          env:
+           - name: OVS_POD_IP
+             valueFrom:
+               fieldRef:
+                 fieldPath: status.podIP
+           - name: OVS_POD_NAME
+             valueFrom:
+               fieldRef:
+                 fieldPath: metadata.name
       containers:
         - name: openvswitch-vswitchd
 {{ tuple $envAll "openvswitch_vswitchd" | include "helm-toolkit.snippets.image" | indent 10 }}
